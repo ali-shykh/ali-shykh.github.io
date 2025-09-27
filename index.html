@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Gugu World</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: white;
+            overflow-x: hidden;
+            /* New cute and attractive purple-pink color scheme */
+            background: linear-gradient(135deg, #f8b4e1, #af92f7, #f687dd);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        .font-pacifico {
+            font-family: 'Pacifico', cursive;
+        }
+        
+        .font-dancing-script {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        /* Timeline styles */
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: white;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+            animation: timeline-grow 3s ease-out forwards;
+        }
+        
+        @keyframes timeline-grow {
+            from { height: 0; }
+            to { height: 100%; }
+        }
+
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12px;
+            background-color: #ff69b4; /* Hot Pink Dot */
+            border: 4px solid #fde2e4; /* Light Pink Border */
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            transform: scale(0);
+            animation: dot-appear 0.5s forwards;
+            animation-delay: 1s;
+        }
+        
+        @keyframes dot-appear {
+            to { transform: scale(1); }
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 50%;
+        }
+
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid white;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+
+        .right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid white;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        .right::after {
+            left: -14px;
+        }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            position: relative;
+            border-radius: 15px;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 1s forwards;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="relative min-h-screen w-full p-4 md:p-8 overflow-hidden">
+        <header class="text-center py-8 fade-in">
+            <h1 class="font-pacifico text-5xl md:text-7xl text-white drop-shadow-lg" style="color: #FFF;">Our Gugu Universe</h1>
+            <p class="font-dancing-script text-2xl md:text-3xl mt-4 text-white">A love story written in the stars</p>
+        </header>
+
+        <main class="space-y-24">
+            <!-- Counter Section -->
+            <section class="text-center fade-in" style="animation-delay: 0.2s;">
+                 <div class="glass-card max-w-2xl mx-auto p-8">
+                     <h2 class="font-dancing-script text-4xl mb-4" style="color: #FFF;">Our Gugu Time Together</h2>
+                     <div id="countdown" class="text-3xl md:text-5xl font-bold tracking-tight">
+                        <span id="years"></span> years 
+                        <span id="days"></span> days 
+                        <span id="hours"></span> hours 
+                        <span id="minutes"></span> minutes 
+                        <span id="seconds"></span> seconds
+                    </div>
+                     <p class="mt-4 text-lg">...and forever to gugu!</p>
+                 </div>
+            </section>
+
+            <!-- Photo Gallery -->
+            <section class="fade-in" style="animation-delay: 0.4s;">
+                <h2 class="font-dancing-script text-5xl text-center mb-12" style="color: #FFF;">Gugu Memories</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto px-4">
+                    <!-- Images are replaced with placeholders that will load correctly -->
+                    <div class="glass-card p-4 group transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/f8b4e1/702963?text=Our+Gugu+Moment+1" alt="Gugu Moment 1" class="rounded-lg w-full h-auto object-cover shadow-2xl">
+                    </div>
+                    <div class="glass-card p-4 group transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/af92f7/ffffff?text=Our+Gugu+Moment+2" alt="Gugu Moment 2" class="rounded-lg w-full h-auto object-cover shadow-2xl">
+                    </div>
+                    <div class="glass-card p-4 group transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/f687dd/702963?text=Our+Gugu+Moment+3" alt="Gugu Moment 3" class="rounded-lg w-full h-auto object-cover shadow-2xl">
+                    </div>
+                    <div class="glass-card p-4 group transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/f8b4e1/ffffff?text=Our+Gugu+Moment+4" alt="Gugu Moment 4" class="rounded-lg w-full h-auto object-cover shadow-2xl">
+                    </div>
+                     <div class="glass-card p-4 group transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/af92f7/702963?text=Our+Gugu+Moment+5" alt="Gugu Moment 5" class="rounded-lg w-full h-auto object-cover shadow-2xl">
+                    </div>
+                     <div class="glass-card p-4 group transform hover:scale-105 transition-transform duration-300">
+                        <img src="https://placehold.co/600x400/f687dd/ffffff?text=Our+Gugu+Moment+6" alt="Gugu Moment 6" class="rounded-lg w-full h-auto object-cover shadow-2xl">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Timeline Section -->
+            <section class="fade-in" style="animation-delay: 0.6s;">
+                <h2 class="font-dancing-script text-5xl text-center mb-16" style="color: #FFF;">Our Gugu Journey</h2>
+                <div class="timeline">
+                    <div class="timeline-container left">
+                        <div class="timeline-content glass-card">
+                            <h3 class="font-bold text-2xl text-pink-200">2017</h3>
+                            <p>Our gugu story began. A spark that would light up our universe.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-container right">
+                        <div class="timeline-content glass-card">
+                            <h3 class="font-bold text-2xl text-pink-200">2018</h3>
+                            <p>Exploring our gugu world, discovering new things about each other every day.</p>
+                        </div>
+                    </div>
+                     <div class="timeline-container left">
+                        <div class="timeline-content glass-card">
+                            <h3 class="font-bold text-2xl text-pink-200">2019</h3>
+                            <p>Our bond grew stronger, filled with endless gugu talks and laughter.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-container right">
+                        <div class="timeline-content glass-card">
+                           <h3 class="font-bold text-2xl text-pink-200">2020</h3>
+                            <p>Facing the world together, our gugu love became our fortress.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-container left">
+                        <div class="timeline-content glass-card">
+                            <h3 class="font-bold text-2xl text-pink-200">2021</h3>
+                            <p>Making countless gugu memories that we'll cherish forever.</p>
+                        </div>
+                    </div>
+                     <div class="timeline-container right">
+                        <div class="timeline-content glass-card">
+                            <h3 class="font-bold text-2xl text-pink-200">2022</h3>
+                            <p>Dreaming of a future filled with more gugu adventures.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-container left">
+                        <div class="timeline-content glass-card">
+                             <h3 class="font-bold text-2xl text-pink-200">2023</h3>
+                            <p>Our gugu connection deepening in ways we never imagined.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-container right">
+                        <div class="timeline-content glass-card">
+                            <h3 class="font-bold text-2xl text-pink-200">2024</h3>
+                            <p>Still my favorite gugu person. My today and all of my tomorrows.</p>
+                        </div>
+                    </div>
+                     <div class="timeline-container left">
+                        <div class="timeline-content glass-card">
+                            <h3 class="font-bold text-2xl text-pink-200">2025</h3>
+                            <p>To our gugu future! The best is yet to come.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gugu Magic Section -->
+            <section class="fade-in text-center" style="animation-delay: 0.8s;">
+                <h2 class="font-dancing-script text-5xl text-center mb-12" style="color: #FFF;">Gugu Magic ✨</h2>
+                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+                    <!-- Poem Generator -->
+                    <div class="glass-card p-6 flex flex-col items-center justify-between">
+                        <h3 class="font-dancing-script text-3xl mb-4" style="color: #FFF;">A Poem for My Gugu</h3>
+                        <div id="poem-output" class="text-left min-h-[150px] w-full p-4 bg-white/10 rounded-lg mb-4 overflow-y-auto">
+                            <p class="italic text-gray-200">Click the button to generate a special poem...</p>
+                        </div>
+                        <button id="generate-poem" class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-6 rounded-full transition-transform transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                            ✨ Generate Gugu Poem
+                        </button>
+                    </div>
+                    <!-- Date Idea Generator -->
+                    <div class="glass-card p-6 flex flex-col items-center justify-between">
+                        <h3 class="font-dancing-script text-3xl mb-4" style="color: #FFF;">Our Next Gugu Adventure</h3>
+                         <div id="date-idea-output" class="text-left min-h-[150px] w-full p-4 bg-white/10 rounded-lg mb-4 overflow-y-auto">
+                            <p class="italic text-gray-200">Click the button for a romantic date idea...</p>
+                        </div>
+                        <button id="generate-date-idea" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-3 px-6 rounded-full transition-transform transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                            ✨ Suggest a Gugu Date
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="text-center py-10 fade-in" style="animation-delay: 1.0s;">
+            <p class="font-pacifico text-2xl">Made with infinite love for my only Gugu.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // --- Three.js 3D Background Animation (Updated) ---
+        let scene, camera, renderer, hearts = [];
+
+        function init3D() {
+            const canvas = document.getElementById('bg-canvas');
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            // Lighting to make hearts look good
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+            scene.add(ambientLight);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+
+            // Create a more realistic heart shape
+            const heartShape = new THREE.Shape();
+            const x = -2.5, y = -5;
+            heartShape.moveTo( x + 2.5, y + 2.5 );
+            heartShape.bezierCurveTo( x + 2.5, y + 2.5, x + 2, y, x, y );
+            heartShape.bezierCurveTo( x - 3, y, x - 3, y + 3.5, x - 3, y + 3.5 );
+            heartShape.bezierCurveTo( x - 3, y + 5.5, x - 1.5, y + 7.7, x + 2.5, y + 9.5 );
+            heartShape.bezierCurveTo( x + 6, y + 7.7, x + 8, y + 5.5, x + 8, y + 3.5 );
+            heartShape.bezierCurveTo( x + 8, y + 3.5, x + 8, y, x + 5, y );
+            heartShape.bezierCurveTo( x + 3.5, y, x + 2.5, y + 2.5, x + 2.5, y + 2.5 );
+
+            const extrudeSettings = { depth: 1, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 0.5, bevelThickness: 0.5 };
+            const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
+            
+            // Create multiple hearts with different properties
+            for (let i = 0; i < 40; i++) {
+                // Use MeshPhongMaterial for a nice shine
+                const material = new THREE.MeshPhongMaterial({ 
+                    color: Math.random() < 0.5 ? 0xff69b4 : 0xcc99ff, // Pink and purple colors
+                    shininess: 90,
+                    specular: 0x222222,
+                });
+                const heart = new THREE.Mesh(geometry, material);
+                
+                // Random initial positions and properties
+                heart.position.set( (Math.random() - 0.5) * 60, (Math.random() - 0.5) * 60, (Math.random() - 0.5) * 40 );
+                heart.rotation.set( Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI );
+                const scale = Math.random() * 0.1 + 0.1;
+                heart.scale.set(scale, scale, scale);
+                
+                // Custom properties for animation
+                heart.userData = {
+                    ySpeed: Math.random() * 0.05 + 0.02,
+                    xRotSpeed: (Math.random() - 0.5) * 0.02,
+                    yRotSpeed: (Math.random() - 0.5) * 0.02,
+                };
+
+                hearts.push(heart);
+                scene.add(heart);
+            }
+            camera.position.z = 30;
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            hearts.forEach(heart => {
+                // Make hearts float up
+                heart.position.y += heart.userData.ySpeed;
+                heart.rotation.x += heart.userData.xRotSpeed;
+                heart.rotation.y += heart.userData.yRotSpeed;
+
+                // Reset heart position if it goes off screen
+                if (heart.position.y > 40) {
+                    heart.position.y = -40;
+                    heart.position.x = (Math.random() - 0.5) * 60;
+                }
+            });
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener('resize', onWindowResize, false);
+        init3D();
+
+        // Relationship Counter
+        const startDate = new Date('2017-04-15T00:00:00');
+        function updateCountdown() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const totalSeconds = Math.floor(diff / 1000);
+            const totalMinutes = Math.floor(totalSeconds / 60);
+            const totalHours = Math.floor(totalMinutes / 60);
+            const totalDays = Math.floor(totalHours / 24);
+
+            const years = now.getFullYear() - startDate.getFullYear();
+            let days = totalDays % 365;
+            
+            const hours = totalHours % 24;
+            const minutes = totalMinutes % 60;
+            const seconds = totalSeconds % 60;
+            
+            document.getElementById('years').innerText = years;
+            document.getElementById('days').innerText = days;
+            document.getElementById('hours').innerText = hours;
+            document.getElementById('minutes').innerText = minutes;
+            document.getElementById('seconds').innerText = seconds;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Intersection Observer for fade-in animations on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-visible');
+                }
+            });
+        });
+
+        const timelineElements = document.querySelectorAll('.timeline-container');
+        timelineElements.forEach(el => observer.observe(el));
+
+        // --- Gemini API Integration ---
+        const apiKey = ""; 
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+        const poemButton = document.getElementById('generate-poem');
+        const dateButton = document.getElementById('generate-date-idea');
+        const poemOutput = document.getElementById('poem-output');
+        const dateOutput = document.getElementById('date-idea-output');
+
+        function showLoading(element) {
+            element.innerHTML = `
+                <div class="flex items-center justify-center h-full">
+                    <svg class="animate-spin h-8 w-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="ml-3">Generating something special...</span>
+                </div>`;
+        }
+        
+        async function generateWithGemini(prompt, outputElement, buttonElement) {
+            buttonElement.disabled = true;
+            showLoading(outputElement);
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+            };
+            
+            let retries = 3;
+            let delay = 1000;
+
+            while (retries > 0) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 429) { throw new Error('Rate limited'); }
+                        throw new Error(`API request failed with status ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    const candidate = result.candidates?.[0];
+
+                    if (candidate && candidate.content?.parts?.[0]?.text) {
+                        outputElement.innerHTML = candidate.content.parts[0].text.replace(/\n/g, '<br>');
+                    } else {
+                        outputElement.innerText = "Sorry, I couldn't think of anything right now. Please try again!";
+                    }
+                    buttonElement.disabled = false;
+                    return; 
+                } catch (error) {
+                    console.error('Gemini API call failed:', error);
+                    retries--;
+                    if (retries === 0) {
+                         outputElement.innerText = "Something went wrong after a few tries. Please try again later.";
+                         buttonElement.disabled = false;
+                    } else {
+                        await new Promise(res => setTimeout(res, delay));
+                        delay *= 2; 
+                    }
+                }
+            }
+        }
+
+        poemButton.addEventListener('click', () => {
+            const prompt = "Write a short, cute, and romantic poem in the style of a loving partner for their 'Gugu'. Their love story started in 2017. Mention stars, their special universe, and a journey that's forever.";
+            generateWithGemini(prompt, poemOutput, poemButton);
+        });
+
+        dateButton.addEventListener('click', () => {
+            const prompt = "Suggest a single, creative, and romantic date night idea for a couple in Lahore, Pakistan. Describe it in a short, enticing paragraph. Make it sound special and unique.";
+            generateWithGemini(prompt, dateOutput, dateButton);
+        });
+    </script>
+</body>
+</html>
+
