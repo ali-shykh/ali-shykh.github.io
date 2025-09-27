@@ -419,10 +419,22 @@
         videoPlaceholder.addEventListener('click', () => {
             // Create the iframe element
             const iframe = document.createElement('iframe');
-            iframe.src = "https://drive.google.com/file/d/17ofhD7PGr4K-pROLQKXRhV2k978GvK0c/embed?autoplay=1&mute=1";
+            
+            // --- INSTRUCTIONS FOR RELIABLE VIDEO PLAYBACK ---
+            // 1. Upload your video to YouTube. Set its visibility to "Unlisted".
+            // 2. After it uploads, click the "Share" button, then "Embed".
+            // 3. From the embed code, copy the unique Video ID (e.g., "dQw4w9WgXcQ").
+            // 4. Replace the placeholder text below with your video's ID.
+            
+            const youtubeVideoId = 'lcO2885VLEg'; // Replaced with your video ID!
+
+            // This new URL is much more reliable than Google Drive for embedding.
+            iframe.src = `https://www.youtube.com/embed/${youtubeVideoId}?autoplay=1&mute=1&loop=1&playlist=${youtubeVideoId}&controls=0&showinfo=0`;
+            
             iframe.className = "rounded-lg w-full h-64 md:h-80 lg:h-96 shadow-2xl";
-            iframe.allow = "autoplay; encrypted-media";
+            iframe.allow = "autoplay; encrypted-media; picture-in-picture";
             iframe.setAttribute('allowfullscreen', '');
+            iframe.setAttribute('frameborder', '0');
 
             // Replace the placeholder with the iframe
             videoContainer.innerHTML = ''; // Clear the container
@@ -548,4 +560,6 @@
     </script>
 </body>
 </html>
+
+
 
